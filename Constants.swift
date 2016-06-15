@@ -10,6 +10,7 @@ extension OTMClient {
     
     struct Constants {
         static let Host = "www.udacity.com"
+        static let UdacityURL = "https://www.udacity.com"
         
     }
     
@@ -18,10 +19,19 @@ extension OTMClient {
     }
     
     struct ParameterKeys {
-        static let Udacity = "udacity"
         
     }
     
+    struct JSONBodyKeys {
+        static let Udacity = "udacity"
+        static let Username = "username"
+        static let Password = "password"
+    }
+    
+    struct ResponseKeys {
+        static let Session = "session"
+        static let SessionID = "id"
+    }
     
     
     

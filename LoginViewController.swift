@@ -16,6 +16,12 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func loginButton(sender: UIButton) {
+        OTMClient.sharedInstance().authorizeUser(userNameTextField.text!, password: passwordTextField.text!) { 
+            
+            print("HURRAY")
+            
+        }
+        
         // Login
         // Update Label if buggy
     }

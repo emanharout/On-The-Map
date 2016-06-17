@@ -17,6 +17,8 @@
 		033566AB1D0CF6BA00155DD1 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */; };
 		033566AD1D0CF7CD00155DD1 /* OTMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033566AC1D0CF7CD00155DD1 /* OTMClient.swift */; };
 		033566AF1D0D089A00155DD1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033566AE1D0D089A00155DD1 /* Constants.swift */; };
+		033566B11D12852700155DD1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033566B01D12852600155DD1 /* MapViewController.swift */; };
+		033566B31D12853200155DD1 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033566B21D12853200155DD1 /* ListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +51,12 @@
 		033566961D0CF28E00155DD1 /* On the MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On the MapUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0335669A1D0CF28E00155DD1 /* On_the_MapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_the_MapUITests.swift; sourceTree = "<group>"; };
 		0335669C1D0CF28E00155DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		033566A81D0CF32400155DD1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		033566A81D0CF32400155DD1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = ../LoginViewController.swift; sourceTree = "<group>"; };
 		033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		033566AC1D0CF7CD00155DD1 /* OTMClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMClient.swift; sourceTree = "<group>"; };
 		033566AE1D0D089A00155DD1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		033566B01D12852600155DD1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = ../MapViewController.swift; sourceTree = "<group>"; };
+		033566B21D12853200155DD1 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListViewController.swift; path = ../ListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,10 +87,8 @@
 		0335666E1D0CF28D00155DD1 = {
 			isa = PBXGroup;
 			children = (
-				033566A81D0CF32400155DD1 /* LoginViewController.swift */,
-				033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */,
-				033566AC1D0CF7CD00155DD1 /* OTMClient.swift */,
-				033566AE1D0D089A00155DD1 /* Constants.swift */,
+				033566B51D12F40900155DD1 /* Model */,
+				033566B41D12F3C300155DD1 /* Controllers */,
 				033566791D0CF28E00155DD1 /* On the Map */,
 				0335668E1D0CF28E00155DD1 /* On the MapTests */,
 				033566991D0CF28E00155DD1 /* On the MapUITests */,
@@ -132,6 +134,27 @@
 				0335669C1D0CF28E00155DD1 /* Info.plist */,
 			);
 			path = "On the MapUITests";
+			sourceTree = "<group>";
+		};
+		033566B41D12F3C300155DD1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				033566A81D0CF32400155DD1 /* LoginViewController.swift */,
+				033566B01D12852600155DD1 /* MapViewController.swift */,
+				033566B21D12853200155DD1 /* ListViewController.swift */,
+			);
+			name = Controllers;
+			path = "On the Map";
+			sourceTree = "<group>";
+		};
+		033566B51D12F40900155DD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */,
+				033566AE1D0D089A00155DD1 /* Constants.swift */,
+				033566AC1D0CF7CD00155DD1 /* OTMClient.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,10 +292,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				033566AF1D0D089A00155DD1 /* Constants.swift in Sources */,
+				033566B11D12852700155DD1 /* MapViewController.swift in Sources */,
 				033566AB1D0CF6BA00155DD1 /* StudentInformation.swift in Sources */,
 				033566AD1D0CF7CD00155DD1 /* OTMClient.swift in Sources */,
 				033566A91D0CF32400155DD1 /* LoginViewController.swift in Sources */,
 				0335667B1D0CF28E00155DD1 /* AppDelegate.swift in Sources */,
+				033566B31D12853200155DD1 /* ListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,9 +16,14 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func loginButton(sender: UIButton) {
-        OTMClient.sharedInstance().authorizeUser(userNameTextField.text!, password: passwordTextField.text!) { 
+        OTMClient.sharedInstance().authorizeUser(userNameTextField.text!, password: passwordTextField.text!) {
+            (result, error) in
             
-            print("HURRAY")
+            self.performUpdateOnMainThread() {
+                
+                let destinationVC = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+                self.presentViewController(destinationVC!, animated: true, completion: nil)
+            }
             
         }
         
@@ -26,16 +31,19 @@ class LoginViewController: UIViewController {
         // Update Label if buggy
     }
     
-    func loginWithCredentials(userName: String, password: String) {
-        
-    }
-    
+    // TODO: Add AlertController for login failure
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-
+    
+    // TODO: Move to GDC Blackbox
+    func performUpdateOnMainThread(completionHandler: ()->Void) {
+        let mainQueue = dispatch_get_main_queue()
+        dispatch_async(mainQueue) {
+            completionHandler()
+        }
+    }
+    
 
 }

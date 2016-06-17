@@ -35,10 +35,11 @@ class OTMClient: NSObject {
         return task
     }
     
-    func taskForPOSTMethod(method: String, parameters: [String: AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: String?)->Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(method: String, parameters: [String: AnyObject], jsonBody: String, service: Service, completionHandlerForPOST: (result: AnyObject!, error: String?)->Void) -> NSURLSessionDataTask {
         
         let url = urlFromComponents("https", host: Constants.Host, method: method, parameters: parameters)
         print("\(url)")
+        
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -48,6 +49,13 @@ class OTMClient: NSObject {
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             (data, response, error) in
             
+            // TODO: Ask how to use errors properly
+            
+            func sendError(error: String) {
+                print("\(error)")
+                
+            }
+            
             guard error == nil else {
                 print("Error in POST method")
                 return
@@ -56,38 +64,51 @@ class OTMClient: NSObject {
                 print("Non-2xx status code for POST method \((response as? NSHTTPURLResponse)?.statusCode)")
                 return
             }
+            print("\(statusCode)")
+            
             guard let data = data else {
                 print("Failure to retrieve POST method data")
                 return
             }
             
-            self.parseData(data, completionHandlerForParseData: completionHandlerForPOST)
+            if service == .Udacity {
+                let formattedData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+            } else {
+                let formattedData = data
+            }
+            
+            self.parseData(formattedData, completionHandlerForParseData: completionHandlerForPOST)
         }
+        
         task.resume()
         return task
     }
     
-    func authorizeUser(username: String, password: String, completionHandlerForAuthorization: ()->Void) {
+    func authorizeUser(username: String, password: String, completionHandlerForAuthorization: (result: AnyObject!, error: String?)->Void) {
         
-        let jsonBody = "{\"\(JSONBodyKeys.Udacity)\": {\"\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
-        print("\(jsonBody)")
+        let jsonBody = "{\"\(JSONBodyKeys.Udacity)\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
         
-        taskForPOSTMethod(OTMClient.Methods.UdacitySessionID, parameters: [String: AnyObject](), jsonBody: jsonBody) {
+        
+        taskForPOSTMethod(OTMClient.Methods.UdacitySessionID, parameters: [String: AnyObject](), jsonBody: jsonBody, service: .Udacity) {
             (result, error) in
             
+            print("Resulting Data after parse: \(result)")
+            
             if let error = error {
-                print("\(error)")
+                completionHandlerForAuthorization(result: nil, error: error)
             } else {
                 if let result = result {
-                    print("Got results in POST method")
+                    
                     guard let session = result[OTMClient.ResponseKeys.Session] as? [String: AnyObject] else {
+                        completionHandlerForAuthorization(result: result, error: "Failed to access session dict")
                         return
                     }
                     guard let sessionID = session[OTMClient.ResponseKeys.SessionID] as? String else {
+                        completionHandlerForAuthorization(result: result, error: "No session ID found in session dict")
                         return
                     }
                     self.sessionID = sessionID
-                    print("SESSION ID RETRIEVED")
+                    completionHandlerForAuthorization(result: result, error: nil)
                 }
             }
         }
@@ -97,17 +118,18 @@ class OTMClient: NSObject {
     
     
     private func parseData(data: NSData, completionHandlerForParseData: (result: AnyObject!, error: String?)-> Void) {
-        let result: AnyObject?
+        
+        let parsedResult: AnyObject!
         
         do {
-            result = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-            print("Successful ParseData")
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            print("Successfully Parsed Data: \(parsedResult)")
         } catch {
             completionHandlerForParseData(result: nil, error: "Failed to Parse Data")
             return
         }
         
-        completionHandlerForParseData(result: result, error: nil)
+        completionHandlerForParseData(result: parsedResult, error: nil)
     }
     
     private func urlFromComponents(scheme: String, host: String, method: String, parameters: [String: AnyObject]) -> NSURL {
@@ -132,17 +154,3 @@ class OTMClient: NSObject {
         return Singleton.sharedSession
     }
 }
-
-
-//{"udacity": {""username": "emmanuoel.h@gmail.com", "password": "C;4ZPu=fJ3Px)rV6M$t7"}}
-//
-//{\"udacity\": {\"username\": \"emmanuoel.h@gmail.com\", \"password\": \"C;4ZPu=fJ3Px)rV6M$t7\"}}
-//let jsonBody = "{\"\(TMDBClient.JSONBodyKeys.MediaType)\": \"movie\",\"\(TMDBClient.JSONBodyKeys.MediaID)\": \"\(movie.id)\",\"\(TMDBClient.JSONBodyKeys.Favorite)\": \(favorite)}"
-//
-//let jsonBody = "{\"\(JSONBodyKeys.Udacity)\": {\"\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
-//print("\(jsonBody)")
-
-
-
-
-

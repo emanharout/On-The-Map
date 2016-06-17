@@ -33,7 +33,11 @@ extension OTMClient {
         static let SessionID = "id"
     }
     
-    
+    enum Service {
+        case Udacity
+        case Parse
+        case Other
+    }
     
     
     

@@ -17,18 +17,19 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButton(sender: UIButton) {
         OTMClient.sharedInstance().authorizeUser(userNameTextField.text!, password: passwordTextField.text!) {
-            (result, error) in
+            (success, error) in
             
-            self.performUpdateOnMainThread() {
-                
-                let destinationVC = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
-                self.presentViewController(destinationVC!, animated: true, completion: nil)
+            if success {
+                self.performUpdateOnMainThread() {
+                    
+                    self.logIntoApp()
+                }
+            } else if let error = error {
+                self.performUpdateOnMainThread() {
+                    self.debugLabel.text = "\(error)"
+                }
             }
-            
         }
-        
-        // Login
-        // Update Label if buggy
     }
     
     // TODO: Add AlertController for login failure
@@ -45,5 +46,9 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func logIntoApp() {
+        let destinationVC = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
+        presentViewController(destinationVC!, animated: true, completion: nil)
+    }
 
 }

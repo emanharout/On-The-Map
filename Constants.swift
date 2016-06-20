@@ -11,7 +11,8 @@ extension OTMClient {
     struct Constants {
         static let Host = "www.udacity.com"
         static let UdacityURL = "https://www.udacity.com"
-        
+        static let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+        static let restAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     }
     
     struct Methods {
@@ -31,6 +32,15 @@ extension OTMClient {
     struct ResponseKeys {
         static let Session = "session"
         static let SessionID = "id"
+        static let ObjectID = "objectId"
+        static let UniqueKey = "uniqueKey"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
+        
     }
     
     enum Service {

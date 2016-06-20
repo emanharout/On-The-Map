@@ -12,7 +12,7 @@ class OTMClient: NSObject {
     
     var sessionID: String?
     
-    private func taskForGETMethod (method: String, parameters: [String: AnyObject], completionHandler: (result: AnyObject!, error: String?) -> Void) -> NSURLSessionDataTask {
+    private func taskForGETMethod (method: String, parameters: [String: AnyObject], service: Service, completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         let url = urlFromComponents("https", host: Constants.Host, method: method, parameters: parameters)
         let request = NSURLRequest(URL: url)
@@ -20,22 +20,34 @@ class OTMClient: NSObject {
             (data, response, error) in
             
             guard error == nil else {
+                completionHandlerForGET(result: nil, error: error)
                 return
             }
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let error = self.getError("taskForGETMethod", code: 1, error: "Server returned non-2xx status code")
+                completionHandlerForGET(result: nil, error: error)
                 return
             }
             guard let data = data else {
+                let error = self.getError("taskForGETMethod", code: 1, error: "Failure to retrieve data from server")
+                completionHandlerForGET(result: nil, error: error)
                 return
             }
             
-            self.parseData(data, completionHandlerForParseData: completionHandler)
+            let formattedData: NSData
+            if service == .Udacity {
+                formattedData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+            } else {
+                formattedData = data
+            }
+            
+            self.parseData(formattedData, completionHandlerForParseData: completionHandlerForGET)
         }
         task.resume()
         return task
     }
     
-    private func taskForPOSTMethod(method: String, parameters: [String: AnyObject], jsonBody: String, service: Service, completionHandlerForPOST: (result: AnyObject!, error: String?)->Void) -> NSURLSessionDataTask {
+    private func taskForPOSTMethod(method: String, parameters: [String: AnyObject], jsonBody: String, service: Service, completionHandlerForPOST: (result: AnyObject!, error: NSError?)->Void) -> NSURLSessionDataTask {
         
         let url = urlFromComponents("https", host: Constants.Host, method: method, parameters: parameters)
         print("\(url)")
@@ -49,26 +61,21 @@ class OTMClient: NSObject {
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             (data, response, error) in
             
-            // TODO: Ask how to use errors properly
-            
-            func sendError(error: String) {
-                print("\(error)")
-                
-            }
-            
             guard error == nil else {
-                print("Error in POST method")
-                completionHandlerForPOST(result: nil, error: "\(error)")
+                print("Error with POST request")
+                completionHandlerForPOST(result: nil, error: error)
                 return
             }
-//            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-//                print("Non-2xx status code for POST method \((response as? NSHTTPURLResponse)?.statusCode)")
-//                return
-//            }
-//            print("\(statusCode)")
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let error = self.getError("taskForPOSTMethod", code: 1, error: "Server returned non-2xx status code")
+                completionHandlerForPOST(result: nil, error: error)
+                return
+            }
+            print("\(statusCode)")
             
             guard let data = data else {
-                print("Failure to retrieve POST method data")
+                let error = self.getError("taskForPOSTMethod", code: 1, error: "Failure to retrieve data from server")
+                completionHandlerForPOST(result: nil, error: error)
                 return
             }
             
@@ -86,27 +93,27 @@ class OTMClient: NSObject {
         return task
     }
     
-    func authorizeUser(username: String, password: String, completionHandlerForAuthorization: (success: Bool, error: String?)->Void) {
+    func authorizeUser(username: String, password: String, completionHandlerForAuthorization: (success: Bool, error: NSError?)->Void) {
         
         getSessionID(username, password: password) {
             (success, result, error) in
             
             if let error = error {
-                print("\(error)")
                 completionHandlerForAuthorization(success: false, error: error)
             } else {
                 if success {
                     self.sessionID = result as? String
                     completionHandlerForAuthorization(success: true, error: nil)
                 } else {
-                    completionHandlerForAuthorization(success: false, error: "Did not succeed in retrieving sessionID")
+                    let error = self.getError("authorizeUser", code: 1, error: "Did not succeed in retrieving sessionID")
+                    completionHandlerForAuthorization(success: false, error: error)
                 }
             }
         }
         
     }
     
-    private func getSessionID(username: String, password: String, completionHandlerForGetSessionID: (success: Bool, result: AnyObject?, error: String?)-> Void) {
+    private func getSessionID(username: String, password: String, completionHandlerForGetSessionID: (success: Bool, result: AnyObject?, error: NSError?)-> Void) {
         
         let jsonBody = "{\"\(JSONBodyKeys.Udacity)\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
         
@@ -117,20 +124,21 @@ class OTMClient: NSObject {
                 completionHandlerForGetSessionID(success: false, result: nil, error: error)
             } else {
                 guard let session = result[OTMClient.ResponseKeys.Session] as? [String: AnyObject] else {
-                    completionHandlerForGetSessionID(success: false, result: nil, error: "Failed to access Session Dict")
+                    let error = self.getError("getSessionID", code: 1, error: "Failed to access Session Dict")
+                    completionHandlerForGetSessionID(success: false, result: nil, error: error)
                     return
                 }
                 guard let sessionID = session[OTMClient.ResponseKeys.SessionID] as? String else {
-                    completionHandlerForGetSessionID(success: false, result: nil, error: "Failed to retrieve Session ID")
+                    let error = self.getError("getSessionID", code: 1, error: "Failed retrieving Session ID")
+                    completionHandlerForGetSessionID(success: false, result: nil, error: error)
                     return
                 }
                 completionHandlerForGetSessionID(success: true, result: sessionID, error: nil)
             }
-            
         }
     }
     
-    private func parseData(data: NSData, completionHandlerForParseData: (result: AnyObject!, error: String?)-> Void) {
+    private func parseData(data: NSData, completionHandlerForParseData: (result: AnyObject!, error: NSError?)-> Void) {
         
         let parsedResult: AnyObject!
         
@@ -138,7 +146,8 @@ class OTMClient: NSObject {
             parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
             print("Parsed Data: \(parsedResult)")
         } catch {
-            completionHandlerForParseData(result: nil, error: "Failed to Parse Data")
+            let error = self.getError("parseData", code: 1, error: "Failed to Parse Data")
+            completionHandlerForParseData(result: nil, error: error)
             return
         }
         
@@ -166,4 +175,10 @@ class OTMClient: NSObject {
         }
         return Singleton.sharedSession
     }
+    
+    func getError(domain: String, code: Int, error: String) -> NSError {
+        let userInfo = [NSLocalizedDescriptionKey: error]
+        return NSError(domain: domain, code: code, userInfo: userInfo)
+    }
+    
 }

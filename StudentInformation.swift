@@ -23,14 +23,14 @@ struct StudentInformation {
     static var studentArray = [StudentInformation]()
     
     init (studentDict: [String: AnyObject]) {
-        objectId = studentDict["\(OTMClient.ResponseKeys.ObjectID)"] as? String
-        uniqueKey = studentDict["\(OTMClient.ResponseKeys.UniqueKey)"] as? String
-        firstName = studentDict["\(OTMClient.ResponseKeys.FirstName)"] as? String
-        lastName = studentDict["\(OTMClient.ResponseKeys.LastName)"] as? String
-        mapString = studentDict["\(OTMClient.ResponseKeys.MapString)"] as? String
-        mediaURL = studentDict["\(OTMClient.ResponseKeys.MediaURL)"] as? String
-        latitude = studentDict["\(OTMClient.ResponseKeys.Latitude)"] as? Float
-        longitude = studentDict["\(OTMClient.ResponseKeys.Longitude)"] as? Float
+        objectId = studentDict["\(ParseClient.ResponseKeys.ObjectID)"] as? String
+        uniqueKey = studentDict["\(ParseClient.ResponseKeys.UniqueKey)"] as? String
+        firstName = studentDict["\(ParseClient.ResponseKeys.FirstName)"] as? String
+        lastName = studentDict["\(ParseClient.ResponseKeys.LastName)"] as? String
+        mapString = studentDict["\(ParseClient.ResponseKeys.MapString)"] as? String
+        mediaURL = studentDict["\(ParseClient.ResponseKeys.MediaURL)"] as? String
+        latitude = studentDict["\(ParseClient.ResponseKeys.Latitude)"] as? Float
+        longitude = studentDict["\(ParseClient.ResponseKeys.Longitude)"] as? Float
     }
     
 }

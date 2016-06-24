@@ -1,22 +1,24 @@
 //
-//  Constants.swift
+//  Parse Constants.swift
 //  On the Map
 //
-//  Created by Emmanuoel Eldridge on 6/11/16.
+//  Created by Emmanuoel Eldridge on 6/21/16.
 //  Copyright © 2016 Emmanuoel Haroutunian. All rights reserved.
 //
 
-extension OTMClient {
+import Foundation
+
+extension ParseClient {
     
     struct Constants {
-        static let Host = "www.udacity.com"
-        static let UdacityURL = "https://www.udacity.com"
+        static let Scheme = "https"
+        static let Host = "api.parse.com"
         static let parseApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
         static let RestAPIKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
     }
     
     struct Methods {
-        static let UdacitySessionID = "/api/session"
+        static let StudentLocation = "/1/classes/StudentLocation"
     }
     
     struct ParameterKeys {
@@ -30,8 +32,6 @@ extension OTMClient {
     }
     
     struct ResponseKeys {
-        static let Session = "session"
-        static let SessionID = "id"
         static let ObjectID = "objectId"
         static let UniqueKey = "uniqueKey"
         static let FirstName = "firstName"
@@ -43,31 +43,5 @@ extension OTMClient {
         
     }
     
-    enum Service {
-        case Udacity
-        case Parse
-        case Other
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
+

@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func loginButton(sender: UIButton) {
-        OTMClient.sharedInstance().authorizeUser(userNameTextField.text!, password: passwordTextField.text!) {
+        UdacityClient.sharedInstance.authorizeUser(userNameTextField.text!, password: passwordTextField.text!) {
             (success, error) in
             
             if success {

@@ -17,9 +17,16 @@ class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ParseClient.sharedInstance.getStudentLocations(100, skip: 400, order: "updatedAt")
+        ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
+            
+            if let error = error {
+                print("\(error.localizedDescription)")
+            } else if let result = result {
+                //print(result)
+                self.tableView.reloadData()
+            }
+        }
     }
-
 }
 
 
@@ -27,16 +34,21 @@ class ListViewController: UIViewController {
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        return UITableViewCell()
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("StudentCell", forIndexPath: indexPath) as! StudentCell
+        let student = StudentInformation.studentArray[indexPath.row]
+        cell.studentName.text = "\(student.firstName) \(student.lastName)"
+        return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return StudentInformation.studentArray.count
     }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath: NSIndexPath) -> CGFloat {
+        return 50.0
+    }
+    
 }

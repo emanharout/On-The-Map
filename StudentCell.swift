@@ -10,7 +10,8 @@ import UIKit
 
 class StudentCell: UITableViewCell {
     
-    @IBOutlet weak var studentFirstName: UILabel!
+    @IBOutlet weak var studentName: UILabel!
+    @IBOutlet weak var studentPinImageView: UIImageView!
     
     
 }

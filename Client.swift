@@ -37,7 +37,7 @@ class Client: NSObject {
             let query = NSURLQueryItem(name: key, value: "\(value)")
             url.queryItems?.append(query)
         }
-        print("\(url)")
+        print("\(url.URL)")
         return url.URL!
     }
     

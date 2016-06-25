@@ -37,7 +37,6 @@ extension UdacityClient {
                         sessionIDError = error
                     }
                 }
-                
                 self.getAccountKey(result, error: error) {
                     (success, result, error) in
                     
@@ -49,7 +48,6 @@ extension UdacityClient {
                         accountKeyError = error
                     }
                 }
-                
                 switch (sessionIDSuccess, accountKeySuccess) {
                 case (true, true):
                     completionHandlerForAuthorization(success: true, error: nil)
@@ -62,8 +60,6 @@ extension UdacityClient {
                 }                
             }
             
-            
-            
             self.getAccountKey(result, error: error) {
                 (success, result, error) in
                 
@@ -74,11 +70,7 @@ extension UdacityClient {
                         self.accountKey = result as? String
                     }
                 }
-                
             }
-            
-            
-            
         }
     }
     

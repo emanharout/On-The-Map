@@ -36,11 +36,8 @@ class UdacityClient: Client {
                 completionHandlerForGET(result: nil, error: error)
                 return
             }
-            
 
             let formattedData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
-
-            
             self.parseData(formattedData, completionHandlerForParseData: completionHandlerForGET)
         }
         task.resume()

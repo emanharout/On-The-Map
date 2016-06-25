@@ -10,14 +10,14 @@ import UIKit
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var studentLocationArray = [String]()
+    //var studentLocationArray = [String]()
     
     var sessionID: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sessionID = UdacityClient.sharedInstance.sessionID
+        ParseClient.sharedInstance.getStudentLocations(100, skip: 400, order: "updatedAt")
     }
 
 }
@@ -29,8 +29,6 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         
         
     }
-    
-
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

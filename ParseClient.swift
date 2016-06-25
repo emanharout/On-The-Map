@@ -43,9 +43,7 @@ class ParseClient: Client {
     }
 
     
-    func taskForGETMethod() {
-        
-        func taskForPOSTMethod(scheme: String, host: String, path: String, parameters: [String: AnyObject], completionHandlerForGETTask: (result: AnyObject!, error: NSError?)-> Void) -> NSURLSessionTask {
+    func taskForGETMethod(scheme: String, host: String, path: String, parameters: [String: AnyObject], completionHandlerForGETTask: (result: AnyObject!, error: NSError?)-> Void) -> NSURLSessionTask {
             
             let url = urlFromComponents(scheme, host: host, path: path, parameters: parameters)
             
@@ -77,10 +75,7 @@ class ParseClient: Client {
             }
             task.resume()
             return task
-        }
+    }
 
         
-    }
-    
-    
 }

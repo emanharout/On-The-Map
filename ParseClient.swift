@@ -33,7 +33,7 @@ class ParseClient: Client {
             }
             
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                let error = self.getError("Parse Client: taskForPOSTMethod", code: 11, error: "Status Code is not 2xx")
+                let error = self.getError("Parse Client: taskForPOSTMethod", code: 12, error: "Status Code is not 2xx")
                 completionHandlerForPOSTTask(result: nil, error: error)
                 return
             }

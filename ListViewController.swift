@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -18,22 +19,39 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         
         ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
-            
             if let error = error {
                 print("\(error.localizedDescription)")
-            } else if let result = result {
-                //print(result)
+                self.displayErrorAlert(error)
+            } else if result != nil {
                 self.tableView.reloadData()
             }
         }
     }
+    
+    @IBAction func addStudentInformation() {
+        
+    }
+    
 }
-
 
 
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let student = StudentInformation.studentArray[indexPath.row]
+        let mediaURL = student.mediaURL
+        guard let url = NSURL(string: mediaURL) else {
+            return
+        }
+
+        if url.scheme != "" {
+            let safariViewController = SFSafariViewController(URL: url)
+            safariViewController.delegate = self
+            presentViewController(safariViewController, animated: true, completion: nil)
+        } else {
+            UIApplication.sharedApplication().openURL(url)
+        }
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -51,4 +69,10 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         return 50.0
     }
     
+}
+
+extension ListViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
 }

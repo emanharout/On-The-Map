@@ -65,14 +65,14 @@ class UdacityClient: Client {
                 return
             }
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-                let error = self.getError("taskForPOSTMethod", code: 1, error: "Server returned non-2xx status code")
+                let error = self.getError("taskForPOSTMethod", code: 2, error: "Server returned non-2xx status code")
                 completionHandlerForPOST(result: nil, error: error)
                 return
             }
             print("\(statusCode)")
             
             guard let data = data else {
-                let error = self.getError("taskForPOSTMethod", code: 1, error: "Failure to retrieve data from server")
+                let error = self.getError("taskForPOSTMethod", code: 2, error: "Failure to retrieve data from server")
                 completionHandlerForPOST(result: nil, error: error)
                 return
             }

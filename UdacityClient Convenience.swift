@@ -56,7 +56,7 @@ extension UdacityClient {
                 case (false, true):
                     completionHandlerForAuthorization(success: false, error: accountKeyError)
                 default:
-                    completionHandlerForAuthorization(success: false, error: self.getError("getSessionID & getAccountKey", code: 1, error: "Failed retrieving both Account Key and Session ID"))
+                    completionHandlerForAuthorization(success: false, error: self.getError("getSessionID & getAccountKey", code: 2, error: "Failed retrieving both Account Key and Session ID"))
                 }                
             }
             

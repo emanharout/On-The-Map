@@ -32,25 +32,22 @@ class LoginViewController: UIViewController {
             }
         }
     }
-
-    // TODO: Add AlertController for login failure
+    
+    
+    // TODO: Add Sign Up for Udacity Account link in label
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    // TODO: Move to GDC Blackbox
-    func performUpdateOnMainThread(completionHandler: ()->Void) {
-        let mainQueue = dispatch_get_main_queue()
-        dispatch_async(mainQueue) {
-            completionHandler()
-        }
     }
     
     func logIntoApp() {
         let destinationVC = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         presentViewController(destinationVC!, animated: true, completion: nil)
     }
+}
 
+
+extension UIViewController {
     func displayErrorAlert(error: NSError) {
         print("Error Code: \(error.code) and Desc: \(error.localizedDescription)")
         
@@ -61,8 +58,12 @@ class LoginViewController: UIViewController {
             errorString = "Could not login due to poor internet connection."
         case 1:
             errorString = "Could not login due to incorrect username or password"
+        case 10...20:
+            errorString = "Could not download student data"
+        case 8:
+            errorString = "Could not locate address on map"
         default:
-            errorString = "There was an error when attempting to log in, please try again later."
+            errorString = "Networking error. Please try again later."
         }
         
         let alertController = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
@@ -71,5 +72,13 @@ class LoginViewController: UIViewController {
         
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    func performUpdateOnMainThread(completionHandler: ()->Void) {
+        let mainQueue = dispatch_get_main_queue()
+        dispatch_async(mainQueue) {
+            completionHandler()
+        }
+    }
+    
     
 }

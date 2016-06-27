@@ -10,6 +10,8 @@ import Foundation
 
 extension ParseClient {
     
+    // TODO: Add uploadStudentInfo func, pass StudentInformation object as argument to fill JSON Body in PostInfoVC
+    
     func getStudentLocations(limit: Int, skip: Int, order: String, completionHandlerForGetStudentLocation: (result: [StudentInformation]?, error: NSError?)->Void) {
         
         let parameters: [String: AnyObject] = ["limit": limit, "skip": skip, "order": order]

@@ -37,7 +37,7 @@ class Client: NSObject {
             let query = NSURLQueryItem(name: key, value: "\(value)")
             url.queryItems?.append(query)
         }
-        print("\(url.URL)")
+        print("URL: \(url.URL!)")
         return url.URL!
     }
     
@@ -46,7 +46,17 @@ class Client: NSObject {
         return NSError(domain: domain, code: code, userInfo: userInfo)
     }
     
+    func substituteKeyInMethod(method: String, key: String, value: String) -> String? {
 
+        if method.rangeOfString("{\(key)}") != nil {
+            let updatedMethod = method.stringByReplacingOccurrencesOfString("{\(key)}", withString: value)
+            print("UPDATED METHOD: \(updatedMethod)")
+            return updatedMethod
+        } else {
+            print("Return: NIL")
+            return nil
+        }
+    }
     
     
     

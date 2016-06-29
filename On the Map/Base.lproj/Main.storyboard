@@ -231,7 +231,7 @@
                                         <rect key="frame" x="0.0" y="84" width="185" height="30"/>
                                         <state key="normal" title="Submit"/>
                                         <connections>
-                                            <action selector="searchMap" destination="dfG-Pu-rsC" eventType="touchUpInside" id="Okq-B4-Gcv"/>
+                                            <action selector="submitStudentInfo:" destination="dfG-Pu-rsC" eventType="touchUpInside" id="0Ug-KA-LLu"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -257,11 +257,12 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicatorView" destination="TtR-rI-QJ3" id="Qg6-3m-lgt"/>
+                        <outlet property="mapStringTextField" destination="bRH-25-hqz" id="BxN-8W-N0H"/>
                         <outlet property="mapView" destination="6Ph-AB-4S3" id="dAP-VE-0xc"/>
                         <outlet property="searchMapStackView" destination="HhT-DJ-yOh" id="YNQ-ow-rMs"/>
                         <outlet property="shareStackView" destination="bYU-d3-Ppb" id="u8m-5x-nAq"/>
-                        <outlet property="textField" destination="bRH-25-hqz" id="609-9O-7nP"/>
                         <outlet property="topToolbar" destination="lAO-uG-xne" id="fcD-m1-HFe"/>
+                        <outlet property="urlTextField" destination="Yet-5Z-pYK" id="pmk-7b-UkF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j5S-gy-4Jq" userLabel="First Responder" sceneMemberID="firstResponder"/>

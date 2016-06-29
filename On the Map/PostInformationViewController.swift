@@ -12,15 +12,21 @@ import MapKit
 class PostInformationViewController: UIViewController, UIToolbarDelegate {
     
     @IBOutlet weak var topToolbar: UIToolbar!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var searchMapStackView: UIStackView!
-    
-    
-    
-    @IBOutlet weak var shareStackView: UIStackView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    @IBOutlet weak var mapStringTextField: UITextField!
+    @IBOutlet weak var searchMapStackView: UIStackView!
+    @IBOutlet weak var urlTextField: UITextField!
+    @IBOutlet weak var shareStackView: UIStackView!
     var annotationsArray = [MKPointAnnotation]()
+    
+    
+    // Assign values to these properties and store into Parse Client
+    var mapString: String?
+    var mediaURL: String?
+    var latitude: Float?
+    var longitude: Float?
     
     
     @IBAction func searchMap() {
@@ -28,7 +34,7 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
         activityIndicatorView.startAnimating()
         
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(textField.text!) { (placemarks, error) in
+        geocoder.geocodeAddressString(mapStringTextField.text!) { (placemarks, error) in
             
             self.activityIndicatorView.stopAnimating()
             self.activityIndicatorView.hidden = true
@@ -40,6 +46,11 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
                 self.mapView.removeAnnotations(self.annotationsArray)
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = (placemarks[0].location?.coordinate)!
+                
+                self.mapString = self.mapStringTextField.text
+                self.latitude = Float(annotation.coordinate.latitude)
+                self.longitude = Float(annotation.coordinate.longitude)
+                
                 self.annotationsArray.append(annotation)
                 self.mapView.addAnnotation(annotation)
                 self.zoomToAnnotation(annotation)
@@ -49,6 +60,34 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
             }
         }
     }
+    
+    @IBAction func submitStudentInfo(sender: AnyObject) {
+        
+        mediaURL = urlTextField.text
+        
+        UdacityClient.sharedInstance.getUserInfo() { (success, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                if let uniqueKey = UdacityClient.sharedInstance.accountKey, firstName = UdacityClient.sharedInstance.userFirstName, lastName = UdacityClient.sharedInstance.userLastName, mapString = self.mapString, mediaURL = self.mediaURL, latitude = self.latitude, longitude = self.longitude {
+                    
+                    let studentInfo = StudentInformation(objectId: nil, uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)
+                    
+                    ParseClient.sharedInstance.taskForPOSTMethod(ParseClient.Constants.Scheme, host: ParseClient.Constants.Host, path: ParseClient.Methods.StudentLocation, parameters: [String: AnyObject](), student: studentInfo) { (result, error) in
+                        
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else if result != nil {
+                            print("SUCCESSFUL UPLOAD")
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    
+    
     
     @IBAction func cancelPostInformation() {
         dismissViewControllerAnimated(true, completion: nil)

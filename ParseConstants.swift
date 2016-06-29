@@ -29,6 +29,13 @@ extension ParseClient {
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"
+        static let UniqueKey = "uniqueKey"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
     }
     
     struct ResponseKeys {

@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
+    // TODO: Add Activity Indicator
     // TODO: Add Sign Up for Udacity Account link in label
     
     override func viewDidLoad() {
@@ -58,10 +58,10 @@ extension UIViewController {
             errorString = "Could not login due to poor internet connection."
         case 1:
             errorString = "Could not login due to incorrect username or password"
-        case 10...20:
-            errorString = "Could not download student data"
         case 8:
             errorString = "Could not locate address on map"
+        case 10...20:
+            errorString = "Could not download student data"
         default:
             errorString = "Networking error. Please try again later."
         }

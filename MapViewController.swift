@@ -26,10 +26,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    @IBAction func addStudentInformation() {
-        
-    }
-    
     func addAnnotationsToMapView(studentLocations: [StudentInformation]) {
         for studentLocation in studentLocations {
             let annotation = MKPointAnnotation()

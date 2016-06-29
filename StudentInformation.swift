@@ -11,7 +11,7 @@ import Foundation
 
 struct StudentInformation {
     
-    var objectId: String
+    var objectId: String?
     var uniqueKey: String
     var firstName: String
     var lastName: String
@@ -23,7 +23,7 @@ struct StudentInformation {
     static var studentArray = [StudentInformation]()
     
     init (studentDict: [String: AnyObject]) {
-        objectId = studentDict["\(ParseClient.ResponseKeys.ObjectID)"] as! String
+        objectId = studentDict["\(ParseClient.ResponseKeys.ObjectID)"] as? String
         uniqueKey = studentDict["\(ParseClient.ResponseKeys.UniqueKey)"] as! String
         firstName = studentDict["\(ParseClient.ResponseKeys.FirstName)"] as! String
         lastName = studentDict["\(ParseClient.ResponseKeys.LastName)"] as! String
@@ -31,6 +31,17 @@ struct StudentInformation {
         mediaURL = studentDict["\(ParseClient.ResponseKeys.MediaURL)"] as! String
         latitude = studentDict["\(ParseClient.ResponseKeys.Latitude)"] as! Float
         longitude = studentDict["\(ParseClient.ResponseKeys.Longitude)"] as! Float
+    }
+    
+    init(objectId: String?, uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaURL: String, latitude: Float, longitude: Float) {
+        self.objectId = objectId
+        self.uniqueKey = uniqueKey
+        self.firstName = firstName
+        self.lastName = lastName
+        self.mapString = mapString
+        self.mediaURL = mediaURL
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
 }

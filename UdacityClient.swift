@@ -10,9 +10,14 @@ import Foundation
 
 class UdacityClient: Client {
     
+    //TODO: Add DELETE HTTP Method
+    
     static let sharedInstance = UdacityClient()
     var sessionID: String?
     var accountKey: String?
+    var userFirstName: String?
+    var userLastName: String?
+    
     
     
     func taskForGETMethod (method: String, parameters: [String: AnyObject], completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
@@ -48,7 +53,6 @@ class UdacityClient: Client {
     func taskForPOSTMethod(method: String, parameters: [String: AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?)->Void) -> NSURLSessionDataTask {
         
         let url = urlFromComponents(Constants.Scheme, host: Constants.Host, path: method, parameters: parameters)
-        print("\(url)")
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"

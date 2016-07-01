@@ -14,7 +14,7 @@ extension UdacityClient {
         
         let jsonBody = "{\"\(JSONBodyKeys.Udacity)\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}"
         
-        taskForPOSTMethod(UdacityClient.Methods.UdacitySessionID, parameters: [String: AnyObject](), jsonBody: jsonBody) {
+        taskForPOSTMethod(UdacityClient.Methods.UdacitySession, parameters: [String: AnyObject](), jsonBody: jsonBody) {
             (result, error) in
             
             var sessionIDSuccess: Bool!
@@ -108,13 +108,11 @@ extension UdacityClient {
             return
         }
         
-        guard let method = substituteKeyInMethod("\(UdacityClient.Methods.UdacityGetUserInfo)", key: "{userID}", value: userID) else {
+        guard let method = substituteKeyInMethod("\(UdacityClient.Methods.GetUserInfo)", key: "{userID}", value: userID) else {
             let error = getError("getUserInfo", code: 3, error: "Could not create method for request.")
             completionHandlerForUserInfo(success: false, error: error)
             return
         }
-        
-        //let method = "/api/users/\(userID)"
         
         taskForGETMethod(method, parameters: [String:AnyObject]()) { (result, error) in
             
@@ -152,6 +150,10 @@ extension UdacityClient {
             return
         }
         completionHandlerForGetUserName(success: true, result: (firstName: firstName, lastName: lastName), error: nil)
+    }
+    
+    func logoutOfAccount() {
+        
     }
     
 }

@@ -16,6 +16,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
             if let error = error {
                 print(error)
@@ -24,6 +29,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.addAnnotationsToMapView(result)
             }
         }
+
     }
     
     func addAnnotationsToMapView(studentLocations: [StudentInformation]) {
@@ -69,6 +75,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             UIApplication.sharedApplication().openURL(url)
         }
     }
+    
+    @IBAction func logoutPressed (sender: AnyObject) {
+        UdacityClient.sharedInstance.taskForDELETEMethod(UdacityClient.Methods.UdacitySession, parameters: [String:AnyObject]()) { (result, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                self.performUpdateOnMainQueue(){
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+        }
+    }
+    
 
 }
 

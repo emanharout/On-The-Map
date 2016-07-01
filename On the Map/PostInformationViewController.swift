@@ -21,13 +21,10 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
     @IBOutlet weak var shareStackView: UIStackView!
     var annotationsArray = [MKPointAnnotation]()
     
-    
-    // Assign values to these properties and store into Parse Client
     var mapString: String?
     var mediaURL: String?
     var latitude: Float?
     var longitude: Float?
-    
     
     @IBAction func searchMap() {
         activityIndicatorView.hidden = false
@@ -40,8 +37,8 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
             self.activityIndicatorView.hidden = true
             
             if let error = error {
-                print("Error Code Is: \(error.code)")
                 self.displayErrorAlert(error)
+                print(error.code)
             } else if let placemarks = placemarks {
                 self.mapView.removeAnnotations(self.annotationsArray)
                 let annotation = MKPointAnnotation()
@@ -63,30 +60,48 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
     
     @IBAction func submitStudentInfo(sender: AnyObject) {
         
-        mediaURL = urlTextField.text
+        guard let urlText = urlTextField.text where !urlText.isEmpty else {
+            self.displayAlert()
+            return
+        }
+        
+        mediaURL = urlText
         
         UdacityClient.sharedInstance.getUserInfo() { (success, error) in
             if let error = error {
-                print(error.localizedDescription)
+                    self.performUpdateOnMainQueue{
+                        self.displayErrorAlert(error)
+                    }
             } else {
                 if let uniqueKey = UdacityClient.sharedInstance.accountKey, firstName = UdacityClient.sharedInstance.userFirstName, lastName = UdacityClient.sharedInstance.userLastName, mapString = self.mapString, mediaURL = self.mediaURL, latitude = self.latitude, longitude = self.longitude {
-                    
+
                     let studentInfo = StudentInformation(objectId: nil, uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: mapString, mediaURL: mediaURL, latitude: latitude, longitude: longitude)
-                    
-                    ParseClient.sharedInstance.taskForPOSTMethod(ParseClient.Constants.Scheme, host: ParseClient.Constants.Host, path: ParseClient.Methods.StudentLocation, parameters: [String: AnyObject](), student: studentInfo) { (result, error) in
                         
+                    ParseClient.sharedInstance.taskForPOSTMethod(ParseClient.Constants.Scheme, host: ParseClient.Constants.Host, path: ParseClient.Methods.StudentLocation, parameters: [String: AnyObject](), student: studentInfo) { (result, error) in
+                            
                         if let error = error {
-                            print(error.localizedDescription)
+                            self.performUpdateOnMainQueue{
+                                print(error.localizedDescription)
+                                self.displayErrorAlert(error)
+                                print("Error code for Submission: \(error.code)")
+                            }
+                            
                         } else if result != nil {
-                            print("SUCCESSFUL UPLOAD")
+                            self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
-
                 }
             }
         }
     }
     
+    func displayAlert() {
+        let alertController = UIAlertController(title: "Text Field is Empty", message: "Please enter a url", preferredStyle: .Alert)
+        let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        alertController.addAction(action)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
     
     
     @IBAction func cancelPostInformation() {
@@ -117,5 +132,6 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
     func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
         return .TopAttached
     }
+    
     
 }

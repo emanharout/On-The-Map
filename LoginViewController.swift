@@ -12,32 +12,33 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var debugLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     
     @IBAction func loginButton(sender: UIButton) {
+        activityIndicator.hidden = false
+        activityIndicator.startAnimating()
         UdacityClient.sharedInstance.authorizeUser(userNameTextField.text!, password: passwordTextField.text!) {
             (success, error) in
             
-            if success {
-                self.performUpdateOnMainThread() {
+            self.performUpdateOnMainQueue{
+                if success {
+                    self.stopActivityIndicator(self.activityIndicator)
                     self.logIntoApp()
-                }
-                
-            } else if let error = error {
-                self.performUpdateOnMainThread() {
-                    print("\(error)")
+                } else if let error = error {
+                    self.stopActivityIndicator(self.activityIndicator)
                     self.displayErrorAlert(error)
                 }
             }
         }
     }
     
-    // TODO: Add Activity Indicator
+    
     // TODO: Add Sign Up for Udacity Account link in label
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.hidden = true
     }
     
     func logIntoApp() {
@@ -49,13 +50,13 @@ class LoginViewController: UIViewController {
 
 extension UIViewController {
     func displayErrorAlert(error: NSError) {
-        print("Error Code: \(error.code) and Desc: \(error.localizedDescription)")
+        print("Error Code: \(error.code) - Localized Desc: \(error.localizedDescription)")
         
         let errorString: String
         
         switch error.code {
         case -1001:
-            errorString = "Could not login due to poor internet connection."
+            errorString = "Error due to poor internet connection."
         case 1:
             errorString = "Could not login due to incorrect username or password"
         case 8:
@@ -72,13 +73,17 @@ extension UIViewController {
         
         presentViewController(alertController, animated: true, completion: nil)
     }
-    
-    func performUpdateOnMainThread(completionHandler: ()->Void) {
+
+    func performUpdateOnMainQueue(completionHandler: ()->Void) {
         let mainQueue = dispatch_get_main_queue()
         dispatch_async(mainQueue) {
             completionHandler()
         }
     }
-    
+
+    func stopActivityIndicator(indicator: UIActivityIndicatorView) {
+        indicator.stopAnimating()
+        indicator.hidden = true
+    }
     
 }

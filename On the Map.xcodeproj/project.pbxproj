@@ -167,13 +167,13 @@
 			isa = PBXGroup;
 			children = (
 				033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */,
-				033566AE1D0D089A00155DD1 /* UdacityConstants.swift */,
-				03ED17DB1D1992E300416650 /* ParseConstants.swift */,
 				033566AC1D0CF7CD00155DD1 /* UdacityClient.swift */,
-				03ED17DD1D19930B00416650 /* ParseClient.swift */,
-				03ED17DF1D1A6EAB00416650 /* Client.swift */,
 				03ED17D91D188F8C00416650 /* UdacityClient Convenience.swift */,
+				033566AE1D0D089A00155DD1 /* UdacityConstants.swift */,
+				03ED17DD1D19930B00416650 /* ParseClient.swift */,
 				03ED17E11D1D83A500416650 /* ParseClient Convenience.swift */,
+				03ED17DB1D1992E300416650 /* ParseConstants.swift */,
+				03ED17DF1D1A6EAB00416650 /* Client.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";

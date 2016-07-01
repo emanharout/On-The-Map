@@ -47,17 +47,11 @@ class Client: NSObject {
     }
     
     func substituteKeyInMethod(method: String, key: String, value: String) -> String? {
-
-        if method.rangeOfString("{\(key)}") != nil {
-            let updatedMethod = method.stringByReplacingOccurrencesOfString("{\(key)}", withString: value)
-            print("UPDATED METHOD: \(updatedMethod)")
+        if method.rangeOfString("\(key)") != nil {
+            let updatedMethod = method.stringByReplacingOccurrencesOfString("\(key)", withString: value)
             return updatedMethod
         } else {
-            print("Return: NIL")
             return nil
         }
     }
-    
-    
-    
 }

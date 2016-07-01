@@ -11,27 +11,41 @@ import SafariServices
 
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    //var studentLocationArray = [String]()
-    
-    var sessionID: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
             if let error = error {
                 print("\(error.localizedDescription)")
-                self.displayErrorAlert(error)
+                self.performUpdateOnMainQueue(){
+                    self.displayErrorAlert(error)
+                }
             } else if result != nil {
-                self.tableView.reloadData()
+                self.performUpdateOnMainQueue(){
+                    self.tableView.reloadData()
+                }
             }
         }
     }
     
-    @IBAction func addStudentInformation() {
-        
-    }
     
+    @IBAction func logoutPressed(sender: AnyObject) {
+        UdacityClient.sharedInstance.taskForDELETEMethod(UdacityClient.Methods.UdacitySession, parameters: [String:AnyObject]()) { (result, error) in
+            
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                self.performUpdateOnMainQueue(){
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+        }
+    }
 }
 
 

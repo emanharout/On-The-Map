@@ -14,8 +14,8 @@ extension UdacityClient {
     }
     
     struct Methods {
-        static let UdacitySessionID = "/api/session"
-        static let UdacityGetUserInfo = "/api/users/{userID}"
+        static let UdacitySession = "/api/session"
+        static let GetUserInfo = "/api/users/{userID}"
     }
     
     struct ParameterKeys {

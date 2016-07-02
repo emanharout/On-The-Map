@@ -52,7 +52,6 @@ class UdacityClient: Client {
             (data, response, error) in
 
             guard error == nil else {
-                print("Error with POST request")
                 completionHandlerForPOST(result: nil, error: error)
                 return
             }
@@ -114,7 +113,6 @@ class UdacityClient: Client {
             }
 
             let formattedData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
-            print("SUCCESSFULL LOGOUT")
             self.parseData(formattedData, completionHandlerForParseData: completionHandlerForDELETE)
         }
         task.resume()

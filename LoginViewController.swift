@@ -1,11 +1,13 @@
 
 import UIKit
+import SafariServices
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, SFSafariViewControllerDelegate {
 
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var signUpLabel: UILabel!
     
     @IBAction func loginButton(sender: UIButton) {
         activityIndicator.hidden = false
@@ -30,20 +32,36 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidden = true
+        
+        let gestureRecognizer = UITapGestureRecognizer()
+        gestureRecognizer.addTarget(self, action: #selector(LoginViewController.signUpLinkTapped))
+        signUpLabel.addGestureRecognizer(gestureRecognizer)
+        signUpLabel.userInteractionEnabled = true
+
     }
 
     func logIntoApp() {
         let destinationVC = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController") as? UITabBarController
         presentViewController(destinationVC!, animated: true, completion: nil)
     }
+    
+    func signUpLinkTapped() {
+        print("LINK TAPPED")
+        let url = NSURL(string: "https://www.udacity.com/account/auth#!/signup")
+        let safariViewController = SFSafariViewController(URL: url!)
+        safariViewController.delegate = self
+        presentViewController(safariViewController, animated: true, completion: nil)
+    }
 }
 
 extension UIViewController {
+    
     func displayErrorAlert(error: NSError) {
         print("Error Code: \(error.code) - Localized Desc: \(error.localizedDescription)")
 
         let errorString: String
-
+        
+        // Determine what text to display in alert view controller
         switch error.code {
         case -1001:
             errorString = "Error due to poor internet connection."

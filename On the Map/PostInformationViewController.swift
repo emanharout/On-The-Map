@@ -26,12 +26,10 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(mapStringTextField.text!) { (placemarks, error) in
 
-            self.activityIndicatorView.stopAnimating()
-            self.activityIndicatorView.hidden = true
+            self.stopActivityIndicator(self.activityIndicatorView)
 
             if let error = error {
                 self.displayErrorAlert(error)
-                print(error.code)
             } else if let placemarks = placemarks {
                 self.mapView.removeAnnotations(self.annotationsArray)
                 let annotation = MKPointAnnotation()
@@ -52,6 +50,8 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
     }
 
     @IBAction func submitStudentInfo(sender: AnyObject) {
+        activityIndicatorView.hidden = false
+        activityIndicatorView.startAnimating()
 
         guard let urlText = urlTextField.text where !urlText.isEmpty else {
             self.displayAlert()
@@ -61,6 +61,8 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
         mediaURL = urlText
 
         UdacityClient.sharedInstance.getUserInfo() { (success, error) in
+            self.stopActivityIndicator(self.activityIndicatorView)
+            
             if let error = error {
                 self.performUpdateOnMainQueue{
                     self.displayErrorAlert(error)

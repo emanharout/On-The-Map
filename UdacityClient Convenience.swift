@@ -40,6 +40,7 @@ extension UdacityClient {
                     }
                 }
 
+                // Determine type of error to send to getError function
                 switch (sessionIDSuccess, accountKeySuccess) {
                 case (true, true):
                     completionHandlerForAuthorization(success: true, error: nil)

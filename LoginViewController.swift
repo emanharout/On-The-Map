@@ -46,7 +46,6 @@ class LoginViewController: UIViewController, SFSafariViewControllerDelegate {
     }
     
     func signUpLinkTapped() {
-        print("LINK TAPPED")
         let url = NSURL(string: "https://www.udacity.com/account/auth#!/signup")
         let safariViewController = SFSafariViewController(URL: url!)
         safariViewController.delegate = self

@@ -6,27 +6,24 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var annotationsArray = [MKPointAnnotation]()
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
             if let error = error {
                 print(error)
                 self.displayErrorAlert(error)
             } else if let result = result {
-                self.addAnnotationsToMapView(result)
+                self.performUpdateOnMainQueue{
+                    self.addAnnotationsToMapView(result)
+                }
             }
         }
     }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        mapView.removeAnnotations(annotationsArray)
-    }
 
     func addAnnotationsToMapView(studentLocations: [StudentInformation]) {
+        mapView.removeAnnotations(annotationsArray)
         for studentLocation in studentLocations {
             let annotation = MKPointAnnotation()
             let coordinate = CLLocationCoordinate2D(latitude: Double(studentLocation.latitude), longitude: Double(studentLocation.longitude))
@@ -36,6 +33,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotation.coordinate = coordinate
             self.annotationsArray.append(annotation)
             self.mapView.addAnnotation(annotation)
+        }
+    }
+
+    @IBAction func reloadData() {
+        ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
+            if let error = error {
+                print(error)
+                self.displayErrorAlert(error)
+            } else if let result = result {
+                self.performUpdateOnMainQueue{
+                    self.addAnnotationsToMapView(result)
+                }
+            }
         }
     }
 

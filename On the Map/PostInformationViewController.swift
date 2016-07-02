@@ -81,7 +81,7 @@ class PostInformationViewController: UIViewController, UIToolbarDelegate {
                                 print("Error code for Submission: \(error.code)")
                             }
 
-                        } else if result != nil {
+                        } else {
                             self.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }

@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -148,11 +149,18 @@
                                 <action selector="logoutPressed:" destination="ojK-ea-e4I" id="f59-N6-EUN"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="pin" id="wM9-kk-EP8">
-                            <connections>
-                                <segue destination="dfG-Pu-rsC" kind="presentation" identifier="addStudentInfoSegue" id="ctc-qs-99a"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="pin" id="wM9-kk-EP8">
+                                <connections>
+                                    <segue destination="dfG-Pu-rsC" kind="presentation" identifier="addStudentInfoSegue" id="ctc-qs-99a"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="9cb-fa-wH5">
+                                <connections>
+                                    <action selector="reloadData" destination="ojK-ea-e4I" id="Aeh-gI-mbS"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="KFY-No-yqk" id="vMl-CE-8c5"/>
@@ -216,7 +224,6 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sLg-KW-dPu"/>
-                                    <barButtonItem title="Submit" id="2A4-Vs-KtO"/>
                                 </items>
                             </toolbar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="bYU-d3-Ppb">
@@ -308,11 +315,18 @@
                                 <action selector="logoutPressed:" destination="AZN-Ct-WG1" id="duu-mX-OFO"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="pin" id="ReY-Xd-DoU">
-                            <connections>
-                                <segue destination="dfG-Pu-rsC" kind="presentation" id="ZWY-Ag-9vn"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="pin" id="ReY-Xd-DoU">
+                                <connections>
+                                    <segue destination="dfG-Pu-rsC" kind="presentation" id="ZWY-Ag-9vn"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="80X-Su-Eb6">
+                                <connections>
+                                    <action selector="reloadData" destination="AZN-Ct-WG1" id="GIJ-im-hra"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Rhn-fE-igt" id="lgd-m1-Kj2"/>

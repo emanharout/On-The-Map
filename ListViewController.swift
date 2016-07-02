@@ -7,21 +7,28 @@ class ListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
+        
         ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
             if let error = error {
                 print("\(error.localizedDescription)")
                 self.performUpdateOnMainQueue(){
                     self.displayErrorAlert(error)
                 }
-            } else if result != nil {
+            } else {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    @IBAction func reloadData() {
+        ParseClient.sharedInstance.getStudentLocations(100, skip: 0, order: "-updatedAt") { (result, error) in
+            if let error = error {
+                print("\(error.localizedDescription)")
                 self.performUpdateOnMainQueue(){
-                    self.tableView.reloadData()
+                    self.displayErrorAlert(error)
                 }
+            } else {
+                self.tableView.reloadData()
             }
         }
     }

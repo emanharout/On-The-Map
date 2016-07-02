@@ -19,6 +19,8 @@ class LoginViewController: UIViewController, SFSafariViewControllerDelegate {
                 if success {
                     self.stopActivityIndicator(self.activityIndicator)
                     self.logIntoApp()
+                    self.userNameTextField.text = nil
+                    self.passwordTextField.text = nil
                 } else if let error = error {
                     self.stopActivityIndicator(self.activityIndicator)
                     self.displayErrorAlert(error)
@@ -62,7 +64,7 @@ extension UIViewController {
         switch error.code {
         case -1001:
             errorString = "Error due to poor internet connection."
-        case 1:
+        case 1, 2:
             errorString = "Could not login due to incorrect username or password"
         case 8:
             errorString = "Could not locate address on map"

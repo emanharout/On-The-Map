@@ -79,4 +79,7 @@ class ParseClient: Client {
         task.resume()
         return task
     }
+    
+    private override init() {
+    }
 }

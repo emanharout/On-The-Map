@@ -118,4 +118,7 @@ class UdacityClient: Client {
         task.resume()
         return task
     }
+    
+    private override init() {
+    }
 }

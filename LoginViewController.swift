@@ -27,8 +27,6 @@ class LoginViewController: UIViewController, SFSafariViewControllerDelegate {
         }
     }
 
-    // TODO: Add Sign Up for Udacity Account link in label
-
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidden = true

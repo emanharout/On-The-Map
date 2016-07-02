@@ -1,16 +1,8 @@
-//
-//  StudentInformation.swift
-//  On the Map
-//
-//  Created by Emmanuoel Eldridge on 6/11/16.
-//  Copyright © 2016 Emmanuoel Haroutunian. All rights reserved.
-//
 
 import Foundation
 
-
 struct StudentInformation {
-    
+
     var objectId: String?
     var uniqueKey: String
     var firstName: String
@@ -19,9 +11,9 @@ struct StudentInformation {
     var mediaURL: String
     var latitude: Float
     var longitude: Float
-    
+
     static var studentArray = [StudentInformation]()
-    
+
     init (studentDict: [String: AnyObject]) {
         objectId = studentDict["\(ParseClient.ResponseKeys.ObjectID)"] as? String
         uniqueKey = studentDict["\(ParseClient.ResponseKeys.UniqueKey)"] as! String
@@ -32,7 +24,7 @@ struct StudentInformation {
         latitude = studentDict["\(ParseClient.ResponseKeys.Latitude)"] as! Float
         longitude = studentDict["\(ParseClient.ResponseKeys.Longitude)"] as! Float
     }
-    
+
     init(objectId: String?, uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaURL: String, latitude: Float, longitude: Float) {
         self.objectId = objectId
         self.uniqueKey = uniqueKey
@@ -43,5 +35,4 @@ struct StudentInformation {
         self.latitude = latitude
         self.longitude = longitude
     }
-    
 }

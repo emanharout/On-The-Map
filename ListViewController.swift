@@ -43,7 +43,7 @@ class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let student = StudentInformation.studentArray[indexPath.row]
+        let student = StudentManager.sharedInstance.studentArray[indexPath.row]
         let mediaURL = student.mediaURL
         guard let url = NSURL(string: mediaURL) else {
             return
@@ -54,20 +54,21 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
             safariViewController.delegate = self
             presentViewController(safariViewController, animated: true, completion: nil)
         } else {
-            UIApplication.sharedApplication().openURL(url)
+            let error = NSError(domain: "tableView didSelectRowAtIndexPath", code: 881, userInfo: nil)
+            displayErrorAlert(error)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("StudentCell", forIndexPath: indexPath) as! StudentCell
-        let student = StudentInformation.studentArray[indexPath.row]
+        let student = StudentManager.sharedInstance.studentArray[indexPath.row]
         cell.studentName.text = "\(student.firstName) \(student.lastName)"
         return cell
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return StudentInformation.studentArray.count
+        return StudentManager.sharedInstance.studentArray.count
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath: NSIndexPath) -> CGFloat {

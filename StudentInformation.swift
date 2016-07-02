@@ -12,8 +12,6 @@ struct StudentInformation {
     var latitude: Float
     var longitude: Float
 
-    static var studentArray = [StudentInformation]()
-
     init (studentDict: [String: AnyObject]) {
         objectId = studentDict["\(ParseClient.ResponseKeys.ObjectID)"] as? String
         uniqueKey = studentDict["\(ParseClient.ResponseKeys.UniqueKey)"] as! String

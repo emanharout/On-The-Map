@@ -5,6 +5,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
+    var annotationsArray = [MKPointAnnotation]()
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -18,6 +19,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        mapView.removeAnnotations(annotationsArray)
+    }
 
     func addAnnotationsToMapView(studentLocations: [StudentInformation]) {
         for studentLocation in studentLocations {
@@ -27,6 +34,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotation.title = "\(studentLocation.firstName) \(studentLocation.lastName)"
             annotation.subtitle = "\(studentLocation.mediaURL)"
             annotation.coordinate = coordinate
+            self.annotationsArray.append(annotation)
             self.mapView.addAnnotation(annotation)
         }
     }
@@ -59,7 +67,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             safariViewController.delegate = self
             presentViewController(safariViewController, animated: true, completion: nil)
         } else {
-            UIApplication.sharedApplication().openURL(url)
+            let error = NSError(domain: "mapView annotationView calloutAccessoryControlTapped", code: 880, userInfo: nil)
+            displayErrorAlert(error)
         }
     }
 

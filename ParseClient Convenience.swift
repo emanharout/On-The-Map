@@ -18,11 +18,13 @@ extension ParseClient {
                     completionHandlerForGetStudentLocation(result: nil, error: error)
                     return
                 }
+                
+                StudentManager.sharedInstance.studentArray.removeAll()
                 for student in studentsInfo {
                     let newStudent = StudentInformation(studentDict: student)
-                    StudentInformation.studentArray.append(newStudent)
+                    StudentManager.sharedInstance.studentArray.append(newStudent)
                 }
-                completionHandlerForGetStudentLocation(result: StudentInformation.studentArray, error: nil)
+                completionHandlerForGetStudentLocation(result: StudentManager.sharedInstance.studentArray, error: nil)
             }
         }
     }

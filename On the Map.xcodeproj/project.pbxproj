@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032870E31D283D970053702F /* StudentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032870E21D283D970053702F /* StudentManager.swift */; };
 		0335667B1D0CF28E00155DD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0335667A1D0CF28E00155DD1 /* AppDelegate.swift */; };
 		033566801D0CF28E00155DD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0335667E1D0CF28E00155DD1 /* Main.storyboard */; };
 		033566821D0CF28E00155DD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 033566811D0CF28E00155DD1 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		032870E21D283D970053702F /* StudentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentManager.swift; sourceTree = "<group>"; };
 		033566771D0CF28D00155DD1 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0335667A1D0CF28E00155DD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0335667F1D0CF28E00155DD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 		033566B51D12F40900155DD1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				032870E21D283D970053702F /* StudentManager.swift */,
 				033566AA1D0CF6BA00155DD1 /* StudentInformation.swift */,
 				033566AC1D0CF7CD00155DD1 /* UdacityClient.swift */,
 				03ED17D91D188F8C00416650 /* UdacityClient Convenience.swift */,
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				033566AF1D0D089A00155DD1 /* UdacityConstants.swift in Sources */,
+				032870E31D283D970053702F /* StudentManager.swift in Sources */,
 				033566B11D12852700155DD1 /* MapViewController.swift in Sources */,
 				03ED17DA1D188F8C00416650 /* UdacityClient Convenience.swift in Sources */,
 				033566AB1D0CF6BA00155DD1 /* StudentInformation.swift in Sources */,

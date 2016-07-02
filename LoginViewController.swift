@@ -68,11 +68,13 @@ extension UIViewController {
             errorString = "Could not locate address on map"
         case 10...20:
             errorString = "Could not download student data"
+        case 880...889:
+            errorString = "User did not include a valid URL"
         default:
             errorString = "Networking error. Please try again later."
         }
 
-        let alertController = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .Alert)
         let action = UIAlertAction(title: "Ok", style: .Default, handler: nil)
         alertController.addAction(action)
 
